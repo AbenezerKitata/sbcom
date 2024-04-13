@@ -1,4 +1,4 @@
-#Off-Road Adventures Website
+Off-Road Adventures Website
 
 Welcome to the Off-Road Adventures website repository!
 
