@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Off-Road Adventures Website
+
+Welcome to the Off-Road Adventures website repository!
+
+## Introduction
+
+This repository serves as the initial framework for our upcoming off-road tour operator website. We're excited to embark on this journey and create an immersive online experience for our adventure-seeking audience.
+
+## Features
+
+- **Basic Structure**: The repository contains the basic structure of our website, including essential pages such as home, about, tours, and contact.
+- **Responsive Design**: Utilizing modern CSS frameworks and best practices, the website layout is designed to be responsive across various devices and screen sizes.
+- **Placeholder Content**: Placeholder text and images have been included to provide a visual representation of the website's layout and content flow. These will be replaced with actual content in subsequent iterations.
+- **Markdown Documentation**: Leveraging the power of Markdown language, this README.md file is formatted to provide clear and concise documentation for developers and collaborators.
 
 ## Getting Started
 
-First, run the development server:
+To get started with the development of the Off-Road Adventures website, follow these steps:
+
+1. **Clone the Repository**: Clone this repository to your local machine using Git.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+ git clone https://github.com/AbenezerKitata/sbcom.git
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Navigate to the Project Directory**: Move into the project directory.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+ cd off-road-adventures
 
-## Learn More
+```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Explore the Code**: Take some time to explore the existing codebase, including HTML, CSS, and JavaScript files.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Make Changes**: Modify the code as per your requirements. You can update text, images, styles, or even add new features.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+5. **Preview Changes**: Open the `index.html` file in your web browser to preview the changes locally.
 
-## Deploy on Vercel
+6. **Commit Changes**: Once you're satisfied with your changes, commit them to your local repository.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+git add .
+git commit -m "Added new content to the home page"
+
+```
+
+7. **Push to GitHub**: Push your changes to your remote GitHub repository.
+
+```bash
+
+git push origin master
+
+```
+
+## Contributing
+
+We welcome contributions from the community to enhance the Off-Road Adventures website. If you have any ideas, suggestions, or would like to report an issue, please feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+<!-- Put in my contact info here -->
+
+Will update my contac info later....
+Happy coding!
