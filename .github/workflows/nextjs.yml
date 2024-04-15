@@ -67,8 +67,7 @@ jobs:
       - name: Build
         run: ${{ steps.detect-package-manager.outputs.runner }} run build --if-present || echo "Build failed"
 
-      - name: Change Directory
-        run: cd /home/sunnybug/actions-runner/_work/sbcom/sbcom || echo "Directory change failed"
-
-      - name: Reload PM2
-        run: pm2 reload 0 || echo "PM2 reload failed"
+      - name: Change Directory and Reload PM2
+        run: |
+          cd /home/sunnybug/actions-runner/_work/sbcom/sbcom || echo "Directory change failed"
+          pm2 reload 0 || echo "PM2 reload failed"
