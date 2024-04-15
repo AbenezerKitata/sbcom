@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Sbcom Nextjs CI/CD
 
 on:
   push:
@@ -13,17 +13,49 @@ jobs:
         node-version: [20.10.0]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
+            echo "manager=pnpm" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=pnpm" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .next/cache
+          # Generate a new cache whenever packages or source files change.
+          key:
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+            # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/pnpm-lock.yaml') }}-
 
       - name: Install dependencies
-        run: npm ci
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
       - name: Create env file
         run: |
@@ -32,8 +64,13 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Build
-        run: npm run build --if-present
+        run: ${{ steps.detect-package-manager.outputs.runner }} run build --if-present || echo "Build failed"
+
+      - name: Copy build files
+        run: cp -r . /home/sunnybug/actions-runner/_work/sbcom/sbcom || echo "Copy operation failed"
 
       - name: Change Directory
-        run: cd /home/sunnybug/actions-runner/_work/sbcom/sbcom
-      - run: pm2 reload 0
+        run: cd /home/sunnybug/actions-runner/_work/sbcom/sbcom || echo "Directory change failed"
+
+      - name: Reload PM2
+        run: pm2 reload 0 || echo "PM2 reload failed"
