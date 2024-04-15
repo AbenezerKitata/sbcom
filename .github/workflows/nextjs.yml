@@ -31,9 +31,6 @@ jobs:
 
         working-directory: ${{ github.workspace }}
 
-      - name: Print contents of .env.production file
-        run: cat .env.production
-
       - name: Build
         run: npm run build --if-present
 
