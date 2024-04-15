@@ -66,9 +66,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/pnpm-lock.yaml') }}-
 
-      - name: Copy build files
-        run: cp -r . /home/sunnybug/actions-runner/_work/sbcom/sbcom || echo "Copy operation failed"
-
       - name: Change Directory
         run: cd /home/sunnybug/actions-runner/_work/sbcom/sbcom || echo "Directory change failed"
 
