@@ -52,8 +52,6 @@ jobs:
 
         working-directory: ${{ github.workspace }}
 
-      - name: Build
-        run: ${{ steps.detect-package-manager.outputs.runner }} run build --if-present || echo "Build failed"
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -65,6 +63,9 @@ jobs:
             # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/pnpm-lock.yaml') }}-
+
+      - name: Build
+        run: ${{ steps.detect-package-manager.outputs.runner }} run build --if-present || echo "Build failed"
 
       - name: Change Directory
         run: cd /home/sunnybug/actions-runner/_work/sbcom/sbcom || echo "Directory change failed"
