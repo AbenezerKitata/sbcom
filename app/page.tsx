@@ -1,17 +1,8 @@
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import { NavMenu } from "./nav";
 
 export default function Home() {
   return (
     <>
-      <header className="mt-5 flex justify-between">
-        <div className="ml-5 lg:ml-10">
-          <NavMenu />
-        </div>
-        <div className="flex justify-end md:mr-10 mr-5">
-          <ModeToggle />
-        </div>
-      </header>
       <main className="flex min-h-screen flex-col items-center gap-10 p-24">
         <h1>Some Heading For Testing Bigger Fonts</h1>
         <h2>Smaller Heading For Testing Slightly Lower Headings </h2>
