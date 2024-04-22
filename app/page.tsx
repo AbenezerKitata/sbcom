@@ -1,10 +1,14 @@
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { NavMenu } from "./nav";
 
 export default function Home() {
   return (
     <>
-      <header className="mt-5">
-        <div className="flex justify-end mr-10">
+      <header className="mt-5 flex justify-between">
+        <div className="ml-5 lg:ml-10">
+          <NavMenu />
+        </div>
+        <div className="flex justify-end md:mr-10 mr-5">
           <ModeToggle />
         </div>
       </header>
