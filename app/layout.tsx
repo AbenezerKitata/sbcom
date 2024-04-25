@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import NavMenu from "./navigation/page";
+import Nav from "./navigation/nav";
+import { BreadcrumbWithCustomSeparator } from "./navigation/breadcrumb";
 
 const font = Raleway({ subsets: ["latin"] });
 
@@ -27,12 +27,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header className="mt-5 flex justify-between">
-            <div className="ml-5 lg:ml-10">
-              <NavMenu />
-            </div>
-            <div className="flex justify-end md:mr-10 mr-5">
-              <ModeToggle />
+          <header>
+            <Nav />
+            <div className="ml-1 lg:ml-14">
+              <BreadcrumbWithCustomSeparator />
             </div>
           </header>
           {children}
