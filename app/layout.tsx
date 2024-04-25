@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Nav from "./navigation/nav";
 import { BreadcrumbWithCustomSeparator } from "./navigation/breadcrumb";
+import { Toaster } from "@/components/ui/toaster";
 
 const font = Raleway({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
             </div>
           </header>
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
