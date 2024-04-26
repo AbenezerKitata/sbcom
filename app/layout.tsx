@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={font.className}>
+      <body className={`flex min-h-screen flex-col w-full ${font.className}`}>
         {" "}
         <ThemeProvider
           attribute="class"
@@ -28,9 +28,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header>
+          <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <Nav />
-            <div className="ml-1 lg:ml-14">
+            <div className="ml-5">
               <BreadcrumbWithCustomSeparator />
             </div>
           </header>

@@ -3,7 +3,7 @@ import LazyYoutube from "./lazy-youtube";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center py-10 px-24">
+    <main>
       <CardElement cardContent={<TempCardContent />} cardTitle="Temp Title" />
     </main>
   );

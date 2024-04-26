@@ -22,14 +22,12 @@ export function BreadcrumbWithCustomSeparator() {
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator>
-          <Slash />
-        </BreadcrumbSeparator>
+        <BreadcrumbSeparator>/</BreadcrumbSeparator>
         {/* <BreadcrumbItem>
           <BreadcrumbLink href="/components">Components</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator>
-          <Slash />
+          /
         </BreadcrumbSeparator> */}
         {/* For every other path other than the first slash Let's create a breadcrumb each separated by breadcrubseparator */}
         {paths.map((path, index) => {
@@ -37,11 +35,11 @@ export function BreadcrumbWithCustomSeparator() {
           return (
             <React.Fragment key={index}>
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/${path}`}>{path}</BreadcrumbLink>
+                <BreadcrumbLink href={pathName.split(path)[0] + path}>
+                  {path}
+                </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator>
-                <Slash />
-              </BreadcrumbSeparator>
+              <BreadcrumbSeparator>/</BreadcrumbSeparator>
             </React.Fragment>
           );
         })}
