@@ -2,13 +2,17 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 import * as schema from "./schema";
 
-export const client = new Client({
-  host: process.env.DB_HOST!,
-  port: Number(process.env.DB_PORT!),
-  user: process.env.DB_USERNAME!,
-  password: process.env.DB_PASSWORD!,
-  database: process.env.DB_NAME!,
+const client = new Client({
+  connectionString: process.env.DRIZZLE_DATABASE_URL,
 });
+
+client
+  .connect()
+  .then(() => console.log("Database connection successful"))
+  .catch((err) => {
+    console.error("Database connection failed", err);
+    process.exit(1);
+  });
 
 // { schema } is used for relational queries
 export const db = drizzle(client, { schema });
