@@ -36,6 +36,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { VehicleType } from "@/actions/vehicle-type";
+import { DialogDemo } from "./dialog";
 
 export const columns: ColumnDef<VehicleType>[] = [
   {
@@ -169,9 +170,7 @@ export default function VehicleTypeTable({ data }: { data: VehicleType[] }) {
           }
           className="max-w-[150px] md:max-w-sm"
         />
-        <Button size="xs" className="text-xs">
-          + Add
-        </Button>
+        <DialogDemo />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

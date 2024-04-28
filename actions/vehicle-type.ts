@@ -1,9 +1,13 @@
+"use server";
 import { db } from "@/drizzle/db";
 import { vehicleType } from "@/drizzle/schema";
 import { InferInsertModel, InferSelectModel, eq } from "drizzle-orm";
-
+import { createId } from "@paralleldrive/cuid2";
+import { revalidatePath } from "next/cache";
 export type VehicleType = InferSelectModel<typeof vehicleType>;
-export type InsertVehicleType = InferInsertModel<typeof vehicleType>;
+type OmitId<T> = Omit<T, "id">;
+
+export type InsertVehicleType = OmitId<InferInsertModel<typeof vehicleType>>;
 export async function getData() {
   try {
     const data: VehicleType[] = await db
@@ -18,9 +22,12 @@ export async function getData() {
 }
 
 export async function addData(data: InsertVehicleType) {
-  await db.insert(vehicleType).values(data);
+  const id = createId();
+  const completeData = { ...data, id };
+  await db.insert(vehicleType).values(completeData);
+  revalidatePath("/locations/pismo-california/admin/vehicle-type");
 }
-export async function editData(data: InsertVehicleType) {
+export async function editData(data: VehicleType) {
   await db.update(vehicleType).set(data).where(eq(vehicleType.id, data.id));
 }
 
