@@ -34,3 +34,11 @@ export async function editData(data: VehicleType) {
 export const deleteData = async (id: string) => {
   await db.delete(vehicleType).where(eq(vehicleType.id, id));
 };
+
+export const findData = async (id: string) => {
+  const data = await db
+    .select()
+    .from(vehicleType)
+    .where(eq(vehicleType.id, id));
+  return data[0];
+};

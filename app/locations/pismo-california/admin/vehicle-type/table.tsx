@@ -36,7 +36,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { VehicleType } from "@/actions/actions.vehicle-type";
-import { DialogDemo } from "./dialog";
+import { AddDialog } from "./addDialog";
+import { EditDialog } from "./editDialog";
 
 export const columns: ColumnDef<VehicleType>[] = [
   {
@@ -74,9 +75,7 @@ export const columns: ColumnDef<VehicleType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("prefix")}</div>
-    ),
+    cell: ({ row }) => <div className="ml-5">{row.getValue("prefix")}</div>,
   },
   {
     accessorKey: "name",
@@ -91,14 +90,12 @@ export const columns: ColumnDef<VehicleType>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+    cell: ({ row }) => <div className="ml-5">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "description",
     header: "Description",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("description")}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("description")}</div>,
   },
   {
     id: "actions",
@@ -116,13 +113,18 @@ export const columns: ColumnDef<VehicleType>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(vehicleType.id)}
             >
               Copy vehicleType ID
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>...do edit here</DropdownMenuItem>
+            <DropdownMenuSeparator /> */}
+            <DropdownMenuItem
+              className="flex items-center py-1 px-2 rounded-sm hover:!bg-violet-200 cursor-pointer"
+              onClick={(e) => e.preventDefault()}
+            >
+              <EditDialog id={row.original.id} />
+            </DropdownMenuItem>
             <DropdownMenuItem>...do delete here</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -157,6 +159,7 @@ export default function VehicleTypeTable({ data }: { data: VehicleType[] }) {
       columnVisibility,
       rowSelection,
     },
+    pageCount: 2,
   });
 
   return (
@@ -170,7 +173,7 @@ export default function VehicleTypeTable({ data }: { data: VehicleType[] }) {
           }
           className="max-w-[150px] md:max-w-sm"
         />
-        <DialogDemo />
+        <AddDialog />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
