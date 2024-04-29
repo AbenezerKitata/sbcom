@@ -1,7 +1,6 @@
 import React from "react";
-import { PismoFleetDemo } from "./fleet";
-import { Button } from "@/components/ui/button";
 import CollapsibleDemo from "./collapsible";
+import PismoVehicleList from "./vehicle-list";
 
 const PismoLandingPage = () => {
   return (
@@ -10,13 +9,7 @@ const PismoLandingPage = () => {
       <div>
         <CollapsibleDemo />
       </div>
-      <p>TODO: Add content here</p>
-      {Array.from(Array(20).keys()).map((i) => (
-        <PismoFleetDemo key={i} />
-      ))}
-      <footer className="flex justify-center fixed bottom-2 w-full animate-bounce">
-        <Button>Book Now</Button>
-      </footer>
+      <PismoVehicleList />
     </div>
   );
 };
