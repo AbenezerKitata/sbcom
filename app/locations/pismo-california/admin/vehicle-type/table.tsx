@@ -35,7 +35,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { VehicleType } from "@/actions/vehicle-type";
+import { VehicleType } from "@/actions/actions.vehicle-type";
 import { DialogDemo } from "./dialog";
 
 export const columns: ColumnDef<VehicleType>[] = [

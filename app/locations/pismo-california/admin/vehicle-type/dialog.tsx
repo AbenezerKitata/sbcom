@@ -16,7 +16,7 @@ export function DialogDemo({}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="icon" className="text-xs mx-auto">
+        <Button size="sm" className="text-xs mx-auto">
           + New
         </Button>
       </DialogTrigger>
