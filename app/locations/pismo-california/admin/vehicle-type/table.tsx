@@ -35,11 +35,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { VehicleType } from "@/actions/actions.vehicle-type";
+import { VehicleType, deleteData } from "@/actions/actions.vehicle-type";
 import { AddDialog } from "./addDialog";
 import { EditDialog } from "./editDialog";
+import { DeleteDialog } from "./deleteDialog";
 
-export const columns: ColumnDef<VehicleType>[] = [
+const columns: ColumnDef<VehicleType>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -113,19 +114,20 @@ export const columns: ColumnDef<VehicleType>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            {/* <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(vehicleType.id)}
-            >
-              Copy vehicleType ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator /> */}
             <DropdownMenuItem
-              className="flex items-center py-1 px-2 rounded-sm hover:!bg-violet-200 cursor-pointer"
-              onClick={(e) => e.preventDefault()}
+              className="capitalize"
+              //   onClick={(e) => e.preventDefault()}
+              onSelect={(e) => e.preventDefault()}
             >
               <EditDialog id={row.original.id} />
             </DropdownMenuItem>
-            <DropdownMenuItem>...do delete here</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <DeleteDialog id={row.original.id} />
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -16,7 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
-import { VehicleType, addData, findData } from "@/actions/actions.vehicle-type";
+import {
+  InsertVehicleType,
+  editData,
+  findData,
+} from "@/actions/actions.vehicle-type";
+import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const FormSchema = z.object({
   prefix: z.string().min(1, {
@@ -31,37 +37,58 @@ const FormSchema = z.object({
 });
 
 export function InputForm({ id }: { id: string }) {
+  const [data, setData] = useState({
+    prefix: "",
+    name: "",
+    description: "",
+  });
+  const [loading, setLoading] = useState(true); // new loading state
+
+  useEffect(() => {
+    fetchData(id);
+  }, [id]);
+
+  useEffect(() => {
+    form.reset(data); // reset form with the updated data
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+  async function fetchData(id: string) {
+    try {
+      const fetchedData = await findData(id);
+      setData({
+        prefix: fetchedData.prefix || "",
+        name: fetchedData.name || "",
+        description: fetchedData.description || "",
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch data",
+      });
+    }
+  }
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      prefix: "",
-      name: "",
-      description: "",
-    },
+    defaultValues: data,
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(id);
-    const oldData = await findData(id);
-    console.log(oldData);
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
-    // await addData(data);
-    // form.reset();
+    await editData({ ...data, id });
+    toast({
+      title: "Success",
+      description: "Vehicle type updated successfully",
+      duration: 1000,
+    });
+  }
+
+  if (loading) {
+    return "loading...";
   }
 
   return (
     <Form {...form}>
-      {/* <form
-        onSubmit={form.handleSubmit((data) => addData(data))}
-        className="space-y-6"
-      > */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
@@ -111,7 +138,12 @@ export function InputForm({ id }: { id: string }) {
             </FormItem>
           )}
         />
-        <Button className=" float-end" type="submit">
+        {/* <Button className=" float-end" type="submit"> */}
+        <Button
+          className=" float-end"
+          type="button"
+          onClick={form.handleSubmit(onSubmit)}
+        >
           Save
         </Button>
       </form>

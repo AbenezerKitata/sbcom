@@ -29,10 +29,12 @@ export async function addData(data: InsertVehicleType) {
 }
 export async function editData(data: VehicleType) {
   await db.update(vehicleType).set(data).where(eq(vehicleType.id, data.id));
+  revalidatePath("/locations/pismo-california/admin/vehicle-type");
 }
 
 export const deleteData = async (id: string) => {
   await db.delete(vehicleType).where(eq(vehicleType.id, id));
+  revalidatePath("/locations/pismo-california/admin/vehicle-type");
 };
 
 export const findData = async (id: string) => {

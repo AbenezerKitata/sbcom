@@ -15,14 +15,10 @@ import { DialogClose } from "@radix-ui/react-dialog";
 export function EditDialog({ id }: { id: string }) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button size="sm" className="text-xs mx-auto">
-          Edit
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger className="w-full text-left">Edit</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add a new vehicle type </DialogTitle>
+          <DialogTitle>Edit the vehicle&apos;s type </DialogTitle>
           <DialogDescription>
             Click save when you&apos;re done.
           </DialogDescription>
