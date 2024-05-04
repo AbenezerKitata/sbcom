@@ -1,0 +1,18 @@
+export const vehicleDefaults = {
+  vehicleTypeId: "",
+  seats: 0,
+  titleName: "",
+  photo: "",
+  year: "",
+  currentLocation: "",
+  color: "",
+  vin: "",
+  engineNumber: "",
+  ifta: "",
+  licenceNumber: "",
+  registrationExpiry: "",
+  cfn: "",
+  titleUploadPic: "",
+  character: "",
+  fleetNumber: "",
+};

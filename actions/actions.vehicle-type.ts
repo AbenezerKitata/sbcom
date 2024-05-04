@@ -8,7 +8,7 @@ export type VehicleType = InferSelectModel<typeof vehicleType>;
 type OmitId<T> = Omit<T, "id">;
 
 export type InsertVehicleType = OmitId<InferInsertModel<typeof vehicleType>>;
-export async function getData() {
+export async function getData(): Promise<VehicleType[]> {
   try {
     const data: VehicleType[] = await db
       .select()
@@ -16,8 +16,8 @@ export async function getData() {
       .orderBy(vehicleType.name);
     return data;
   } catch (err) {
-    console.log(err);
-    throw new Error("Failed to fetch data");
+    console.error(err);
+    throw new Error("Failed to fetch vehicle-type data");
   }
 }
 
