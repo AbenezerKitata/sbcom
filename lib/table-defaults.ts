@@ -16,3 +16,13 @@ export const vehicleDefaults = {
   character: "",
   fleetNumber: "",
 };
+
+export const userDefaults = {
+  name: "",
+  email: "",
+  role: 0,
+  userName: "",
+  emailVerified: "",
+  image: "",
+  profilePic: "",
+};

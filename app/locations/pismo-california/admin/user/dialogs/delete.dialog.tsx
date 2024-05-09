@@ -1,4 +1,4 @@
-import { deleteData } from "@/actions/actions.vehicle";
+import { deleteData } from "@/actions/actions.user";
 import {
   AlertDialog,
   AlertDialogAction,

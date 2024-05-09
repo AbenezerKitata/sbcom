@@ -31,3 +31,17 @@ export const VehicleFormSchema = z.object({
     message: "Fleet number must be at least 1 characters.",
   }),
 });
+
+export const UserFormSchema = z.object({
+  name: z.string().min(1, {
+    message: "Name must be at least 1 characters.",
+  }),
+  email: z.string().email({
+    message: "Invalid email.",
+  }),
+  role: z.coerce.number(),
+  userName: z.string().nullable(),
+  emailVerified: z.string().nullable(),
+  image: z.string().nullable(),
+  profilePic: z.string().nullable(),
+});
