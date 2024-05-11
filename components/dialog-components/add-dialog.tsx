@@ -30,6 +30,7 @@ export const AddDialog: React.FC<AddDialogProps> = ({
       <DialogContent
         className="sm:max-w-[425px] p-4"
         onKeyDown={(e) => e.stopPropagation()}
+        onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>Add a new {item} </DialogTitle>

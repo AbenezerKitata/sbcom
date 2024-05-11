@@ -417,6 +417,8 @@ export const vehicle = pgTable("vehicle", {
   character: text("character").notNull(),
   fleetNumber: text("fleet_number").notNull(),
   subType: text("sub_type"),
+  make: text("make"),
+  trim: text("trim"),
 });
 
 export const whoViewedPage = pgTable("whoViewedPage", {
@@ -504,4 +506,9 @@ export const waivers = pgTable("Waivers", {
     }),
   status: text("status").notNull(),
   reservationId: text("reservationId"),
+});
+export const pismoVehicleInfo = pgTable("pismoVehicleInfo", {
+  id: text("id").primaryKey().notNull(),
+  vehicleName: text("vehicleName").notNull(),
+  vehicleType: text("vehicleType").notNull(),
 });

@@ -15,6 +15,10 @@ export const VehicleFormSchema = z.object({
   subType: z.string().min(1, {
     message: "Sub type must be at least 1 characters.",
   }),
+  make: z.string().min(1, {
+    message: "Make must be at least 1 characters.",
+  }),
+  trim: z.string().nullable(),
   titleName: z.string(),
   year: z.string(),
   photo: z.string(),

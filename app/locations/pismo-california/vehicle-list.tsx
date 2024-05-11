@@ -10,9 +10,9 @@ const PismoVehicleList = () => {
   );
   return (
     <section className="flex flex-col items-center w-full">
-      <p>TODO: Add content here</p>
+      {/* <p>TODO: Add content here</p>
 
-      <PismoFleetDemo setAddedFleet={setAddedFleet} />
+      <PismoFleetDemo setAddedFleet={setAddedFleet} /> */}
       <div className="flex justify-center fixed bottom-2 animate-bounce">
         <Button>Book Now</Button>
       </div>

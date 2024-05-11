@@ -16,6 +16,8 @@ export const vehicleDefaults = {
   titleUploadPic: "",
   character: "",
   fleetNumber: "",
+  trim: "",
+  make: "",
 };
 
 export const userDefaults = {

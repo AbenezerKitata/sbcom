@@ -40,6 +40,7 @@ export function InputForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     await addData(data);
     form.reset();
+    setTimeout(() => (document.body.style.pointerEvents = ""), 100);
   }
 
   return (
@@ -82,6 +83,18 @@ export function InputForm() {
           form={form}
           label="Fleet Number"
           name="fleetNumber"
+          required={true}
+        />
+        <TextInputFormField
+          form={form}
+          label="Make"
+          name="make"
+          required={true}
+        />
+        <TextInputFormField
+          form={form}
+          label="Trim"
+          name="trim"
           required={true}
         />
         <Accordion

@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface EditDialogProps {
   id: string;
@@ -36,6 +36,7 @@ export const EditDialog: React.FC<EditDialogProps> = ({
       <DialogContent
         className="sm:max-w-[425px] p-4"
         onKeyDown={(e) => e.stopPropagation()}
+        onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>Edit this {item} </DialogTitle>

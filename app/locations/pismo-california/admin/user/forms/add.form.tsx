@@ -35,6 +35,7 @@ export default function InputForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     await addData(data);
     form.reset();
+    setTimeout(() => (document.body.style.pointerEvents = ""), 100);
   }
 
   return (

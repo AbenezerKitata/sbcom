@@ -52,6 +52,8 @@ export function EditForm({
         character: fetchedData.character || "",
         subType: fetchedData.subType || "",
         fleetNumber: fetchedData.fleetNumber || "",
+        make: fetchedData.make || "",
+        trim: fetchedData.trim || "",
         titleName: fetchedData.titleName || "",
         titleUploadPic: fetchedData.titleUploadPic || "",
         vin: fetchedData.vin || "",
@@ -90,6 +92,7 @@ export function EditForm({
     });
     setOpen(false);
     setDropDownOpen(false);
+    setTimeout(() => (document.body.style.pointerEvents = ""), 100);
   }
 
   if (loading) {
@@ -146,6 +149,18 @@ export function EditForm({
             setMoreLess(moreLess === "Advanced" ? "Show Less" : "Advanced")
           }
         >
+          <TextInputFormField
+            form={form}
+            label="Make"
+            name="make"
+            required={true}
+          />
+          <TextInputFormField
+            form={form}
+            label="Trim"
+            name="trim"
+            required={true}
+          />
           <AccordionItem value="item-1">
             <AccordionTrigger> {moreLess}</AccordionTrigger>
             <AccordionContent>

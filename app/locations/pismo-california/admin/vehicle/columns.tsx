@@ -153,6 +153,22 @@ export const columns: ColumnDef<Vehicle>[] = [
     cell: ({ row }) => <div className="ml-5">{row.getValue("color")}</div>,
   },
   {
+    id: "make",
+    accessorKey: "make",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Make
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="ml-5">{row.getValue("make")}</div>,
+  },
+  {
     id: "subType",
     accessorKey: "subType",
     header: ({ column }) => {
@@ -167,6 +183,23 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => <div className="ml-5">{row.getValue("subType")}</div>,
+  },
+
+  {
+    id: "trim",
+    accessorKey: "trim",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Trim
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="ml-5">{row.getValue("trim")}</div>,
   },
   {
     id: "registrationExpiry",

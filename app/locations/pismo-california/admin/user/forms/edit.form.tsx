@@ -77,6 +77,7 @@ export function EditForm({
     });
     setOpen(false);
     setDropDownOpen(false);
+    setTimeout(() => (document.body.style.pointerEvents = ""), 100);
   }
 
   if (loading) {
