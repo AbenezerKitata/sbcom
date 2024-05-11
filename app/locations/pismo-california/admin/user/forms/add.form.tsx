@@ -10,8 +10,9 @@ import { addData } from "@/actions/actions.user";
 import { TextInputFormField } from "@/components/form-components/form-input";
 import { userDefaults } from "@/lib/table-defaults";
 import { UserFormSchema as FormSchema } from "@/lib/form-schemas";
+import { SelectInputFormField } from "@/components/form-components/form-select";
 
-export function InputForm() {
+export default function InputForm() {
   // const [user_types, setUserTypes] = useState<UserType[]>([]);
   // useEffect(() => {
   //   fetchData();
@@ -21,9 +22,11 @@ export function InputForm() {
   //     const data = await getData();
   //     setUserTypes(data);
   //   } catch (err) {
-  //     console.log(err);
+  //     console.error(err);
   //   }
   // }
+
+  const locations = ["Pismo", "Las-Vegas", "Silverlake", "Florida"];
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: userDefaults,
@@ -73,6 +76,14 @@ export function InputForm() {
           name="userName"
           placeholder="User Name"
           description="This the user name of our user"
+        />
+        <SelectInputFormField
+          form={form}
+          label="Location"
+          name="location"
+          placeholder="Location"
+          description="This the location of our user"
+          object={locations}
         />
 
         <div className="flex justify-center fixed bottom-20 right-1 w-full">

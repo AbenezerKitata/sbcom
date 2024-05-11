@@ -11,9 +11,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Vehicle } from "@/actions/actions.vehicle";
-import { EditDialog } from "./dialogs/edit.dialog";
-import { DeleteDialog } from "./dialogs/delete.dialog";
+import { Vehicle, deleteData } from "@/actions/actions.vehicle";
+import { EditDialog } from "@/components/dialog-components/edit-dialog";
+import { EditForm } from "./forms/edit.form";
+import { DeleteDialog } from "@/components/dialog-components/delete-dialog";
+// import { getData } from "@/actions/actions.vehicle-type";
 
 export const columns: ColumnDef<Vehicle>[] = [
   {
@@ -36,7 +38,6 @@ export const columns: ColumnDef<Vehicle>[] = [
       />
     ),
     enableSorting: false,
-    enableHiding: false,
   },
   {
     id: "actions",
@@ -44,36 +45,11 @@ export const columns: ColumnDef<Vehicle>[] = [
     cell: ({ row }) => {
       const Vehicle = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              className="capitalize"
-              //   onClick={(e) => e.preventDefault()}
-              onSelect={(e) => e.preventDefault()}
-            >
-              <EditDialog id={Vehicle.id} />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <DeleteDialog id={Vehicle.id} />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return DropDown(Vehicle);
     },
   },
   {
+    id: "fleetNumber",
     accessorKey: "fleetNumber",
     header: ({ column }) => {
       return (
@@ -90,7 +66,9 @@ export const columns: ColumnDef<Vehicle>[] = [
       <div className="ml-5">{row.getValue("fleetNumber")}</div>
     ),
   },
+
   {
+    id: "seats",
     accessorKey: "seats",
     header: ({ column }) => {
       return (
@@ -107,6 +85,7 @@ export const columns: ColumnDef<Vehicle>[] = [
   },
 
   {
+    id: "currentLocation",
     accessorKey: "currentLocation",
     header: ({ column }) => {
       return (
@@ -124,6 +103,7 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   {
+    id: "character",
     accessorKey: "character",
     header: ({ column }) => {
       return (
@@ -140,6 +120,7 @@ export const columns: ColumnDef<Vehicle>[] = [
   },
 
   {
+    id: "year",
     accessorKey: "year",
     header: ({ column }) => {
       return (
@@ -156,6 +137,7 @@ export const columns: ColumnDef<Vehicle>[] = [
   },
 
   {
+    id: "color",
     accessorKey: "color",
     header: ({ column }) => {
       return (
@@ -171,6 +153,23 @@ export const columns: ColumnDef<Vehicle>[] = [
     cell: ({ row }) => <div className="ml-5">{row.getValue("color")}</div>,
   },
   {
+    id: "subType",
+    accessorKey: "subType",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Sub Type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="ml-5">{row.getValue("subType")}</div>,
+  },
+  {
+    id: "registrationExpiry",
     accessorKey: "registrationExpiry",
     header: ({ column }) => {
       return (
@@ -188,6 +187,7 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   {
+    id: "titleName",
     accessorKey: "titleName",
     header: ({ column }) => {
       return (
@@ -203,30 +203,83 @@ export const columns: ColumnDef<Vehicle>[] = [
     cell: ({ row }) => <div className="ml-5">{row.getValue("titleName")}</div>,
   },
   {
+    id: "vin",
     accessorKey: "vin",
     header: "Vin",
     cell: ({ row }) => <div>{row.getValue("vin")}</div>,
   },
 
   {
+    id: "engineNumber",
     accessorKey: "engineNumber",
     header: "Engine Number",
     cell: ({ row }) => <div>{row.getValue("engineNumber")}</div>,
   },
   {
+    id: "licenceNumber",
     accessorKey: "licenceNumber",
     header: "License Number",
     cell: ({ row }) => <div>{row.getValue("licenceNumber")}</div>,
   },
 
   {
+    id: "cfn",
     accessorKey: "cfn",
     header: "CFN",
     cell: ({ row }) => <div>{row.getValue("cfn")}</div>,
   },
   {
+    id: "ifta",
     accessorKey: "ifta",
     header: "IFTA",
     cell: ({ row }) => <div>{row.getValue("ifta")}</div>,
   },
 ];
+export default function DropDown(Vehicle: Vehicle) {
+  const [dropDownOpen, setDropDownOpen] = React.useState(false);
+
+  return (
+    <DropdownMenu open={dropDownOpen} onOpenChange={setDropDownOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem
+          className="capitalize"
+          //   onClick={(e) => e.preventDefault()}
+          onSelect={(e) => e.preventDefault()}
+        >
+          <EditDialog
+            id={Vehicle.id}
+            setDropDownOpen={setDropDownOpen}
+            item="vehicle"
+          >
+            {({ setOpen, setDropDownOpen }) => (
+              <EditForm
+                id={Vehicle.id}
+                setOpen={setOpen}
+                setDropDownOpen={setDropDownOpen}
+              />
+            )}
+          </EditDialog>{" "}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <DeleteDialog
+            id={Vehicle.id}
+            setDropDownOpen={setDropDownOpen}
+            item="vehicle"
+            deleteData={deleteData}
+          />
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

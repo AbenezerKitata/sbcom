@@ -18,9 +18,9 @@ export function EditDialog({ id }: { id: string }) {
       <DialogTrigger className="w-full text-left">Edit</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit this Vehicle </DialogTitle>
+          <DialogTitle>Edit the vehicle&apos;s type </DialogTitle>
           <DialogDescription>
-            Click <code> save</code> when you&apos;re done.
+            Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <InputForm id={id} />

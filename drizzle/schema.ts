@@ -157,6 +157,7 @@ export const user = pgTable(
     role: integer("role").default(100).notNull(),
     userName: text("userName"),
     profilePic: text("profilePic"),
+    location: text("location"),
   },
   (table) => {
     return {
@@ -415,6 +416,7 @@ export const vehicle = pgTable("vehicle", {
   titleUploadPic: text("title_upload_pic"),
   character: text("character").notNull(),
   fleetNumber: text("fleet_number").notNull(),
+  subType: text("sub_type"),
 });
 
 export const whoViewedPage = pgTable("whoViewedPage", {

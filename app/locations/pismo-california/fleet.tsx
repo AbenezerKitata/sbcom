@@ -9,16 +9,23 @@ export function PismoFleetDemo({
   >;
 }) {
   return (
-    <div className="flex mb-3 items-center justify-between w-full">
-      <Skeleton className=" h-24 w-24 rounded-full" />
-      <div className=" w-60 h-20 rounded-md">
-        <Skeleton className="h-10 w-full" />
-        <div className="flex justify-evenly">
-          <Skeleton className="h-5 w-[25%]" />
-          <Skeleton className="h-5 w-[25%]" />
-          <Skeleton className="h-5 w-[25%]" />
+    <>
+      {Array.from(Array(20).keys()).map((i) => (
+        <div
+          className="flex mb-3 items-center justify-between  md:w-[25%] w-full"
+          key={i}
+        >
+          <Skeleton className=" h-24 w-24 rounded-full" />
+          <div className=" w-60 h-20 rounded-md mb-2 flex flex-col justify-end">
+            <Skeleton className="h-10 w-full " />
+            <div className="flex justify-evenly mt-2">
+              <Skeleton className="h-5 w-[30px]" />
+              <Skeleton className="h-5 w-[30px]" />
+              <Skeleton className="h-5 w-[30px]" />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ))}
+    </>
   );
 }

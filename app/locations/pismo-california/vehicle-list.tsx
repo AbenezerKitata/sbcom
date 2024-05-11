@@ -11,9 +11,8 @@ const PismoVehicleList = () => {
   return (
     <section className="flex flex-col items-center w-full">
       <p>TODO: Add content here</p>
-      {Array.from(Array(20).keys()).map((i) => (
-        <PismoFleetDemo setAddedFleet={setAddedFleet} key={i} />
-      ))}
+
+      <PismoFleetDemo setAddedFleet={setAddedFleet} />
       <div className="flex justify-center fixed bottom-2 animate-bounce">
         <Button>Book Now</Button>
       </div>

@@ -30,9 +30,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AddDialog } from "./dialogs/add.dialog";
+import { AddDialog } from "@/components/dialog-components/add-dialog";
 import { columns } from "./columns";
 import { UserType } from "@/actions/actions.user";
+import InputForm from "./forms/add.form";
 
 export default function UserTable({ data }: { data: UserType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -40,7 +41,10 @@ export default function UserTable({ data }: { data: UserType[] }) {
     []
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({
+      role: false,
+      email: false,
+    });
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -61,6 +65,7 @@ export default function UserTable({ data }: { data: UserType[] }) {
       rowSelection,
     },
     pageCount: 2,
+    enableHiding: true,
   });
 
   return (
@@ -74,7 +79,7 @@ export default function UserTable({ data }: { data: UserType[] }) {
           }
           className="max-w-[150px] md:max-w-sm"
         />
-        <AddDialog />
+        <AddDialog inputForm={<InputForm />} item="user" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

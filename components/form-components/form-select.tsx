@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 export function SelectInputFormField({
   form,
   placeholder,
@@ -25,6 +26,7 @@ export function SelectInputFormField({
   required = false,
   object,
   selectedColumn,
+  array,
 }: {
   form: any;
   placeholder?: string;
@@ -32,8 +34,9 @@ export function SelectInputFormField({
   label: string;
   name: string;
   required?: boolean;
-  object: any[];
-  selectedColumn: string;
+  object?: any[];
+  selectedColumn?: string;
+  array?: any[];
 }) {
   return (
     <FormField
@@ -49,11 +52,19 @@ export function SelectInputFormField({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {object.map((itm) => (
-                <SelectGroup key={itm.id}>
-                  <SelectItem value={itm.id}>{itm[selectedColumn]}</SelectItem>
-                </SelectGroup>
-              ))}
+              {object && selectedColumn
+                ? object?.map((itm) => (
+                    <SelectGroup key={itm.id}>
+                      <SelectItem value={itm.id}>
+                        {itm[selectedColumn]}
+                      </SelectItem>
+                    </SelectGroup>
+                  ))
+                : array?.map((itm) => (
+                    <SelectGroup key={itm}>
+                      <SelectItem value={itm}>{itm}</SelectItem>
+                    </SelectGroup>
+                  ))}
             </SelectContent>
           </Select>
           <FormDescription> {description} </FormDescription>

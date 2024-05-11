@@ -18,7 +18,7 @@ const BookPismo = () => {
   // extract the quote id from the url query params
   const searchParams = useSearchParams();
   const quoteId = searchParams.get("quoteId");
-  console.log(quoteId);
+  // console.log(quoteId);
   const [stepOneForm, setStepOneForm] = React.useState<
     StepOneFormProps | undefined
   >(undefined);

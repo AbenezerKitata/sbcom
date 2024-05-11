@@ -11,8 +11,15 @@ import { TextInputFormField } from "@/components/form-components/form-input";
 import { SelectInputFormField } from "@/components/form-components/form-select";
 import { vehicleDefaults } from "@/lib/table-defaults";
 import { VehicleFormSchema as FormSchema } from "@/lib/form-schemas";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export function InputForm() {
+  const [moreLess, setMoreLess] = useState("Advanced");
   const [vehicle_types, setVehicleTypes] = useState<VehicleType[]>([]);
   useEffect(() => {
     fetchData();
@@ -39,7 +46,7 @@ export function InputForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-[425px] max-h-[75vh] overflow-scroll flex flex-col"
+        className="space-y-6 max-w-[425px] max-h-[70vh] overflow-scroll flex flex-col mb-10"
       >
         <SelectInputFormField
           form={form}
@@ -48,13 +55,14 @@ export function InputForm() {
           object={vehicle_types}
           selectedColumn="name"
         />
+        <TextInputFormField form={form} label="Sub Type" name="subType" />
         <TextInputFormField form={form} label="Year" name="year" />
         <TextInputFormField
           form={form}
           type="number"
           name="seats"
           label="Seats"
-          placeholder="Name"
+          placeholder="Seats"
           description="number of seats"
           required={true}
         />
@@ -76,34 +84,52 @@ export function InputForm() {
           name="fleetNumber"
           required={true}
         />
-        <TextInputFormField
-          form={form}
-          label="Registration Expiry"
-          name="registrationExpiry"
-        />
-        <TextInputFormField form={form} label="Title Name" name="titleName" />
-        <TextInputFormField
-          form={form}
-          label="Title Upload Pic"
-          name="titleUploadPic"
-        />
-        <TextInputFormField form={form} label="VIN" name="vin" />
-        <TextInputFormField
-          form={form}
-          label="Engine Number"
-          name="engineNumber"
-        />
-        <TextInputFormField form={form} label="IFTA" name="ifta" />
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full"
+          onClick={() =>
+            setMoreLess(moreLess === "Advanced" ? "Show Less" : "Advanced")
+          }
+        >
+          <AccordionItem value="item-1">
+            <AccordionTrigger>{moreLess}</AccordionTrigger>
+            <AccordionContent>
+              <TextInputFormField
+                form={form}
+                label="Registration Expiry"
+                name="registrationExpiry"
+              />
+              <TextInputFormField
+                form={form}
+                label="Title Name"
+                name="titleName"
+              />
+              <TextInputFormField
+                form={form}
+                label="Title Upload Pic"
+                name="titleUploadPic"
+              />
+              <TextInputFormField form={form} label="VIN" name="vin" />
+              <TextInputFormField
+                form={form}
+                label="Engine Number"
+                name="engineNumber"
+              />
+              <TextInputFormField form={form} label="IFTA" name="ifta" />
 
-        <TextInputFormField
-          form={form}
-          label="License Number"
-          name="licenceNumber"
-        />
+              <TextInputFormField
+                form={form}
+                label="License Number"
+                name="licenceNumber"
+              />
+              <TextInputFormField form={form} label="CFN" name="cfn" />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-        <TextInputFormField form={form} label="CFN" name="cfn" />
-        <div className="flex justify-center fixed bottom-20 right-1 w-full">
-          <Button className="" type="submit">
+        <div className="flex justify-center fixed bottom-16 right-0 w-full">
+          <Button type="submit" variant="outline" className="w-[90%]">
             Save
           </Button>
         </div>

@@ -11,8 +11,17 @@ import { useEffect, useState } from "react";
 import { UserFormSchema as FormSchema } from "@/lib/form-schemas";
 import { TextInputFormField } from "@/components/form-components/form-input";
 import { userDefaults } from "@/lib/table-defaults";
+import { SelectInputFormField } from "@/components/form-components/form-select";
 
-export function InputForm({ id }: { id: string }) {
+export function EditForm({
+  id,
+  setOpen,
+  setDropDownOpen,
+}: {
+  id: string;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setDropDownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [data, setData] = useState(userDefaults);
   // const [vehicle_types, setVehicleTypes] = useState<VehicleType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +36,7 @@ export function InputForm({ id }: { id: string }) {
   async function fetchData(id: string) {
     try {
       const fetchedData = await findData(id);
-      console.log(fetchedData);
+      // console.log(fetchedData);
       setData({
         email: fetchedData.email || "",
         name: fetchedData.name || "",
@@ -36,6 +45,7 @@ export function InputForm({ id }: { id: string }) {
         image: fetchedData.image || "",
         profilePic: fetchedData.profilePic || "",
         emailVerified: fetchedData.emailVerified || "",
+        location: fetchedData.location || "",
       });
 
       setLoading(false);
@@ -47,6 +57,9 @@ export function InputForm({ id }: { id: string }) {
       });
     }
   }
+
+  const locations = ["Pismo", "Las Vegas", "Silverlake", "Florida"];
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: data,
@@ -62,6 +75,8 @@ export function InputForm({ id }: { id: string }) {
       description: "Vehicle updated successfully",
       duration: 1000,
     });
+    setOpen(false);
+    setDropDownOpen(false);
   }
 
   if (loading) {
@@ -72,7 +87,7 @@ export function InputForm({ id }: { id: string }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-[425px] max-h-[75vh] overflow-scroll flex flex-col"
+        className="space-y-6 max-w-[425px] max-h-[70vh] overflow-scroll flex flex-col mb-10"
       >
         <TextInputFormField
           form={form}
@@ -108,12 +123,18 @@ export function InputForm({ id }: { id: string }) {
           description="user name of our user"
           placeholder="User Name"
         />
-        {/* <TextInputFormField form={form} label="Image" name="image" />
-      <TextInputFormField form={form} label="Profile Pic" name="profilePic" />
-      <TextInputFormField form={form} label="Email Verified" name="emailVerified" /> */}
+        <SelectInputFormField
+          form={form}
+          label="Location"
+          name="location"
+          placeholder="Choose Location"
+          description="This the location of our user"
+          array={locations}
+          selectedColumn={data.location}
+        />
 
-        <div className="flex justify-center fixed bottom-20 right-1 w-full">
-          <Button className="" type="submit">
+        <div className="flex justify-center fixed bottom-16 right-0 w-full">
+          <Button type="submit" variant="outline" className="w-[90%]">
             Save
           </Button>
         </div>

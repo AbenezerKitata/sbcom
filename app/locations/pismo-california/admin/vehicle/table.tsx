@@ -13,7 +13,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -31,8 +30,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Vehicle } from "@/actions/actions.vehicle";
-import { AddDialog } from "./dialogs/add.dialog";
 import { columns } from "./columns";
+import { AddDialog } from "@/components/dialog-components/add-dialog";
+import { InputForm } from "./forms/add.form";
 
 export default function VehicleTable({ data }: { data: Vehicle[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -40,7 +40,15 @@ export default function VehicleTable({ data }: { data: Vehicle[] }) {
     []
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({
+      registrationExpiry: false,
+      titleName: false,
+      vin: false,
+      engineNumber: false,
+      licenceNumber: false,
+      cfn: false,
+      ifta: false,
+    });
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -76,7 +84,7 @@ export default function VehicleTable({ data }: { data: Vehicle[] }) {
           }
           className="max-w-[150px] md:max-w-sm"
         />
-        <AddDialog />
+        <AddDialog inputForm={<InputForm />} item="vehicle" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

@@ -12,6 +12,9 @@ export const VehicleFormSchema = z.object({
   seats: z.coerce.number().min(1, {
     message: "Seats must be at least 1.",
   }),
+  subType: z.string().min(1, {
+    message: "Sub type must be at least 1 characters.",
+  }),
   titleName: z.string(),
   year: z.string(),
   photo: z.string(),
@@ -44,4 +47,5 @@ export const UserFormSchema = z.object({
   emailVerified: z.string().nullable(),
   image: z.string().nullable(),
   profilePic: z.string().nullable(),
+  location: z.string().nullable(),
 });

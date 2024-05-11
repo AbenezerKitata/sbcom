@@ -4,6 +4,7 @@ export const vehicleDefaults = {
   titleName: "",
   photo: "",
   year: "",
+  subType: "",
   currentLocation: "",
   color: "",
   vin: "",
@@ -25,4 +26,5 @@ export const userDefaults = {
   emailVerified: "",
   image: "",
   profilePic: "",
+  location: "",
 };

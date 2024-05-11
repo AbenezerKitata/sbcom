@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { InputForm } from "./addForm";
+import { InputForm } from "../forms/add.form";
 import { DialogClose } from "@radix-ui/react-dialog";
 
 export function AddDialog({}) {

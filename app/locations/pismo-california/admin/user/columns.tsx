@@ -11,9 +11,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EditDialog } from "./dialogs/edit.dialog";
-import { DeleteDialog } from "./dialogs/delete.dialog";
-import { UserType } from "@/actions/actions.user";
+import { EditDialog } from "@/components/dialog-components/edit-dialog";
+import { UserType, deleteData } from "@/actions/actions.user";
+import { DeleteDialog } from "@/components/dialog-components/delete-dialog";
+import { EditForm } from "./forms/edit.form";
 
 export const columns: ColumnDef<UserType>[] = [
   {
@@ -42,38 +43,13 @@ export const columns: ColumnDef<UserType>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const Vehicle = row.original;
+      const User = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              className="capitalize"
-              //   onClick={(e) => e.preventDefault()}
-              onSelect={(e) => e.preventDefault()}
-            >
-              <EditDialog id={Vehicle.id} />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <DeleteDialog id={Vehicle.id} />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return DropDown(User);
     },
   },
   {
+    id: "name",
     accessorKey: "name",
     header: ({ column }) => {
       return (
@@ -87,9 +63,11 @@ export const columns: ColumnDef<UserType>[] = [
       );
     },
     cell: ({ row }) => <div className="ml-5">{row.getValue("name")}</div>,
+    enableHiding: false,
   },
 
   {
+    id: "email",
     accessorKey: "email",
     header: ({ column }) => {
       return (
@@ -106,6 +84,7 @@ export const columns: ColumnDef<UserType>[] = [
   },
 
   {
+    id: "userName",
     accessorKey: "userName",
     header: ({ column }) => {
       return (
@@ -120,4 +99,86 @@ export const columns: ColumnDef<UserType>[] = [
     },
     cell: ({ row }) => <div className="ml-5">{row.getValue("userName")}</div>,
   },
+
+  {
+    id: "role",
+    accessorKey: "role",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Role
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="ml-5">{row.getValue("role")}</div>,
+  },
+  {
+    id: "location",
+    accessorKey: "location",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Location
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="ml-5">{row.getValue("location")}</div>,
+  },
 ];
+export default function DropDown(User: UserType) {
+  const [dropDownOpen, setDropDownOpen] = React.useState(false);
+  return (
+    <DropdownMenu open={dropDownOpen} onOpenChange={setDropDownOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem
+          className="capitalize"
+          onSelect={(e) => {
+            e.preventDefault();
+          }}
+        >
+          {" "}
+          <EditDialog
+            id={User.id}
+            setDropDownOpen={setDropDownOpen}
+            item="user"
+          >
+            {({ setOpen, setDropDownOpen }) => (
+              <EditForm
+                id={User.id}
+                setOpen={setOpen}
+                setDropDownOpen={setDropDownOpen}
+              />
+            )}
+          </EditDialog>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <DeleteDialog
+            id={User.id}
+            setDropDownOpen={setDropDownOpen}
+            item="user"
+            deleteData={deleteData}
+          />
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "vehicle" DROP COLUMN IF EXISTS "type";

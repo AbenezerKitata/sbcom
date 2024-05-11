@@ -9,21 +9,35 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { InputForm } from "../forms/edit.form";
 import { DialogClose } from "@radix-ui/react-dialog";
 
-export function EditDialog({ id }: { id: string }) {
+interface AddDialogProps {
+  inputForm: React.ReactNode;
+  item: string;
+}
+
+export const AddDialog: React.FC<AddDialogProps> = ({
+  inputForm: InputForm,
+  item,
+}) => {
   return (
     <Dialog>
-      <DialogTrigger className="w-full text-left">Edit</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogTrigger asChild>
+        <Button size="sm" className="text-xs mx-auto">
+          + New
+        </Button>
+      </DialogTrigger>
+      <DialogContent
+        className="sm:max-w-[425px] p-4"
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <DialogHeader>
-          <DialogTitle>Edit this Vehicle </DialogTitle>
+          <DialogTitle>Add a new {item} </DialogTitle>
           <DialogDescription>
-            Click <code> save</code> when you&apos;re done.
+            Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <InputForm id={id} />
+        {InputForm}
         <DialogFooter className="flex sm:justify-center w-full">
           <DialogClose asChild>
             <Button variant="outline">Close</Button>
@@ -32,4 +46,4 @@ export function EditDialog({ id }: { id: string }) {
       </DialogContent>
     </Dialog>
   );
-}
+};

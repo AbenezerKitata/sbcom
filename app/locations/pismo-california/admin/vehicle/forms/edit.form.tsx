@@ -13,13 +13,29 @@ import { VehicleFormSchema as FormSchema } from "@/lib/form-schemas";
 import { SelectInputFormField } from "@/components/form-components/form-select";
 import { TextInputFormField } from "@/components/form-components/form-input";
 import { vehicleDefaults } from "@/lib/table-defaults";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-export function InputForm({ id }: { id: string }) {
+export function EditForm({
+  id,
+  setOpen,
+  setDropDownOpen,
+}: {
+  id: string;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setDropDownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [data, setData] = useState(vehicleDefaults);
   const [vehicle_types, setVehicleTypes] = useState<VehicleType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [moreLess, setMoreLess] = useState("Advanced");
   useEffect(() => {
     fetchData(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {
@@ -34,6 +50,7 @@ export function InputForm({ id }: { id: string }) {
         currentLocation: fetchedData.currentLocation || "",
         color: fetchedData.color || "",
         character: fetchedData.character || "",
+        subType: fetchedData.subType || "",
         fleetNumber: fetchedData.fleetNumber || "",
         titleName: fetchedData.titleName || "",
         titleUploadPic: fetchedData.titleUploadPic || "",
@@ -52,7 +69,7 @@ export function InputForm({ id }: { id: string }) {
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast({
         title: "Error",
         description: "Failed to fetch data",
@@ -71,6 +88,8 @@ export function InputForm({ id }: { id: string }) {
       description: "Vehicle updated successfully",
       duration: 1000,
     });
+    setOpen(false);
+    setDropDownOpen(false);
   }
 
   if (loading) {
@@ -81,7 +100,7 @@ export function InputForm({ id }: { id: string }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-[425px] max-h-[75vh] overflow-scroll flex flex-col"
+        className="space-y-6 max-w-[425px] max-h-[70vh] overflow-scroll flex flex-col mb-10"
       >
         <SelectInputFormField
           form={form}
@@ -89,6 +108,13 @@ export function InputForm({ id }: { id: string }) {
           name="vehicleTypeId"
           object={vehicle_types}
           selectedColumn="name"
+        />
+        <TextInputFormField form={form} label="Sub Type" name="subType" />
+        <TextInputFormField
+          form={form}
+          label="Fleet Number"
+          name="fleetNumber"
+          required={true}
         />
         <TextInputFormField form={form} label="Year" name="year" />
         <TextInputFormField
@@ -112,40 +138,52 @@ export function InputForm({ id }: { id: string }) {
           name="character"
           required={true}
         />
-        <TextInputFormField
-          form={form}
-          label="Fleet Number"
-          name="fleetNumber"
-          required={true}
-        />
-        <TextInputFormField
-          form={form}
-          label="Registration Expiry"
-          name="registrationExpiry"
-        />
-        <TextInputFormField form={form} label="Title Name" name="titleName" />
-        <TextInputFormField
-          form={form}
-          label="Title Upload Pic"
-          name="titleUploadPic"
-        />
-        <TextInputFormField form={form} label="VIN" name="vin" />
-        <TextInputFormField
-          form={form}
-          label="Engine Number"
-          name="engineNumber"
-        />
-        <TextInputFormField form={form} label="IFTA" name="ifta" />
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full"
+          onClick={() =>
+            setMoreLess(moreLess === "Advanced" ? "Show Less" : "Advanced")
+          }
+        >
+          <AccordionItem value="item-1">
+            <AccordionTrigger> {moreLess}</AccordionTrigger>
+            <AccordionContent>
+              <TextInputFormField
+                form={form}
+                label="Registration Expiry"
+                name="registrationExpiry"
+              />
+              <TextInputFormField
+                form={form}
+                label="Title Name"
+                name="titleName"
+              />
+              <TextInputFormField
+                form={form}
+                label="Title Upload Pic"
+                name="titleUploadPic"
+              />
+              <TextInputFormField form={form} label="VIN" name="vin" />
+              <TextInputFormField
+                form={form}
+                label="Engine Number"
+                name="engineNumber"
+              />
+              <TextInputFormField form={form} label="IFTA" name="ifta" />
 
-        <TextInputFormField
-          form={form}
-          label="License Number"
-          name="licenceNumber"
-        />
+              <TextInputFormField
+                form={form}
+                label="License Number"
+                name="licenceNumber"
+              />
+              <TextInputFormField form={form} label="CFN" name="cfn" />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-        <TextInputFormField form={form} label="CFN" name="cfn" />
-        <div className="flex justify-center fixed bottom-20 right-1 w-full">
-          <Button className="" type="submit">
+        <div className="flex justify-center fixed bottom-16 right-0 w-full">
+          <Button type="submit" variant="outline" className="w-[90%]">
             Save
           </Button>
         </div>
