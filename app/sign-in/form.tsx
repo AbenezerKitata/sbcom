@@ -1,5 +1,9 @@
 "use client";
-import { googleSignIn, signInWithEmail } from "@/actions/actions.auth";
+import {
+  googleSignIn,
+  signInWithEmail,
+  verifyOtp,
+} from "@/actions/actions.auth";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,12 +20,19 @@ const userAuthSchema = z.object({
   email: z.string().email(),
 });
 
+const codeSchema = z.object({
+  code: z.string().min(6),
+});
+
 type FormData = z.infer<typeof userAuthSchema>;
+type CodeData = z.infer<typeof codeSchema>;
 export default function UserAuthForm({
   className,
   ...props
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [showCodeInputForm, setShowCodeInputForm] =
+    React.useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -29,9 +40,24 @@ export default function UserAuthForm({
   } = useForm<FormData>({
     resolver: zodResolver(userAuthSchema),
   });
+  const {
+    register: registerCode,
+    handleSubmit: handleSubmitCode,
+    formState: { errors: codeErrors },
+  } = useForm<CodeData>({
+    resolver: zodResolver(codeSchema),
+  });
+
   async function onSubmit(data: FormData) {
     setIsLoading(true);
     await signInWithEmail(data.email);
+    setIsLoading(false);
+    setShowCodeInputForm(true);
+  }
+
+  async function onSubmitCode(data: CodeData) {
+    setIsLoading(true);
+    await verifyOtp(data.code);
     setIsLoading(false);
   }
   const searchParams = useSearchParams();
@@ -97,6 +123,40 @@ export default function UserAuthForm({
           {message}
         </p>
       )}
+      <div className="grid gap-2">
+        {message && (
+          <form onSubmit={handleSubmitCode(onSubmitCode)}>
+            <div className="grid gap-2">
+              <div className="grid gap-1">
+                <Label className="sr-only" htmlFor="code">
+                  Code
+                </Label>
+                <Input
+                  id="code"
+                  placeholder="Code"
+                  type="text"
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  disabled={isLoading}
+                  {...registerCode("code")}
+                />
+                {codeErrors?.code && (
+                  <p className="px-1 text-xs text-red-600">
+                    {codeErrors.code.message}
+                  </p>
+                )}
+              </div>
+              <Button disabled={isLoading}>
+                {isLoading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Submit Code
+              </Button>
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
