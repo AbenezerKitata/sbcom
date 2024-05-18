@@ -32,6 +32,7 @@ export default function UserAuthForm({
   async function onSubmit(data: FormData) {
     setIsLoading(true);
     await signInWithEmail(data.email);
+    setIsLoading(false);
   }
   const searchParams = useSearchParams();
   const message = searchParams.get("message");

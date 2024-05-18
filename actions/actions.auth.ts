@@ -23,6 +23,7 @@ export async function signInWithEmail(email: string) {
       // set this to false if you do not want the user to be automatically signed up
       shouldCreateUser: true,
       emailRedirectTo: "http://localhost:3000/auth/callback",
+      data: {},
     },
   });
   if (error) {
@@ -31,4 +32,16 @@ export async function signInWithEmail(email: string) {
     );
   }
   return redirect(`/sign-in?message=Check your  email for the magic link `);
+}
+export async function verifyOtp(token_hash: string) {
+  const { error } = await supabase.auth.verifyOtp({
+    type: "email",
+    token_hash,
+  });
+  if (error) {
+    return redirect(
+      `/auth/confirm?message=Could not verify OTP, Error:${error.message}`
+    );
+  }
+  return redirect(`/auth/confirm?message=OTP verified successfully`);
 }

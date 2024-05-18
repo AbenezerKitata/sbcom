@@ -31,13 +31,9 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    const { error } = await supabase.auth.verifyOtp({
-      type,
-      token_hash,
-    });
-    if (!error) {
-      return NextResponse.redirect(redirectTo);
-    }
+    // if (!error) {
+    //   return NextResponse.redirect(redirectTo);
+    // }
   }
 
   // return the user to an error page with some instructions
