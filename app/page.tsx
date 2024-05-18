@@ -4,7 +4,7 @@ import LazyYoutube from "./lazy-youtube";
 export default function Home() {
   return (
     <main>
-      <CardElement cardContent={<TempCardContent />} cardTitle="Temp Title" />
+      {/* <CardElement cardContent={<TempCardContent />} cardTitle="Temp Title" /> */}
     </main>
   );
 }
