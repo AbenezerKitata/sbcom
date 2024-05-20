@@ -17,9 +17,11 @@ export default async function AuthButton() {
     return redirect("/sign-in");
   };
 
+  // console.log(user?.user_metadata.full_name);
+
   return user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
+      Hey, {user?.user_metadata.full_name.split(" ")[0]}!
       <form action={signOut}>
         <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
           Logout
