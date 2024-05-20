@@ -16,7 +16,9 @@ const Nav = () => {
           <ModeToggle />
         </div> */}
       <div className="px-4 lg:px-6 h-14 flex items-center">
-        <Link className="md:flex items-center justify-center  hidden" href="/">
+        <MobileNav />
+        <Link className="items-center justify-center hidden md:flex" href="/">
+          {/* show only in dark mode */}
           <div className=" hidden dark:block">
             <Image
               alt="site logo"
@@ -25,6 +27,7 @@ const Nav = () => {
               width={40}
             />
           </div>
+          {/* show only in normal mode */}
           <div className="dark:hidden">
             <Image
               alt="site logo"
@@ -35,11 +38,12 @@ const Nav = () => {
           </div>
           <span className="sr-only">Sunbuggy LLC</span>
         </Link>
-        <MobileNav />
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <ModeToggle />
+          <div className="mt-2">
+            <ModeToggle />
+          </div>
           <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
+            className="text-sm font-medium hover:underline underline-offset-4 place-items-center flex"
             href="/locations"
           >
             locations
