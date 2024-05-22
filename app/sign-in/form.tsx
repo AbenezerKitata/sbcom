@@ -18,21 +18,16 @@ import { z } from "zod";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 const userAuthSchema = z.object({
   email: z.string().email(),
-});
-
-const codeSchema = z.object({
-  code: z.string().min(6),
+  code: z.string().min(6).nullable().optional(),
 });
 
 type FormData = z.infer<typeof userAuthSchema>;
-type CodeData = z.infer<typeof codeSchema>;
 export default function UserAuthForm({
   className,
   ...props
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [showCodeInputForm, setShowCodeInputForm] =
-    React.useState<boolean>(false);
+  const [showCode, setShowCode] = React.useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -40,34 +35,27 @@ export default function UserAuthForm({
   } = useForm<FormData>({
     resolver: zodResolver(userAuthSchema),
   });
-  const {
-    register: registerCode,
-    handleSubmit: handleSubmitCode,
-    formState: { errors: codeErrors },
-  } = useForm<CodeData>({
-    resolver: zodResolver(codeSchema),
-  });
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
-    await signInWithEmail(data.email);
+    if (!showCode) {
+      await signInWithEmail(data.email);
+    } else {
+      await verifyOtp(data.code!, data.email);
+    }
     setIsLoading(false);
-    setShowCodeInputForm(true);
+    setShowCode(!showCode);
   }
 
-  async function onSubmitCode(data: CodeData) {
-    setIsLoading(true);
-    await verifyOtp(data.code);
-    setIsLoading(false);
-  }
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
-
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
-          <div className="grid gap-1">
+          <div
+            className={` gap-1 ${showCode && "hidden"} ${!showCode && "grid"}`}
+          >
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
@@ -87,45 +75,15 @@ export default function UserAuthForm({
               </p>
             )}
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign In with Email
-          </Button>
-        </div>
-      </form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <Button
-        variant="outline"
-        type="button"
-        disabled={isLoading}
-        onClick={() => googleSignIn()}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </Button>
-      {message && (
-        <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
-          {message}
-        </p>
-      )}
-      <div className="grid gap-2">
-        {message && (
-          <form onSubmit={handleSubmitCode(onSubmitCode)}>
+          {!showCode && (
+            <Button disabled={isLoading}>
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Sign In with Email
+            </Button>
+          )}
+          {showCode && (
             <div className="grid gap-2">
               <div className="grid gap-1">
                 <Label className="sr-only" htmlFor="code">
@@ -139,11 +97,11 @@ export default function UserAuthForm({
                   autoComplete="off"
                   autoCorrect="off"
                   disabled={isLoading}
-                  {...registerCode("code")}
+                  {...register("code")}
                 />
-                {codeErrors?.code && (
+                {errors?.code && (
                   <p className="px-1 text-xs text-red-600">
-                    {codeErrors.code.message}
+                    {errors.code.message}
                   </p>
                 )}
               </div>
@@ -154,9 +112,44 @@ export default function UserAuthForm({
                 Submit Code
               </Button>
             </div>
-          </form>
-        )}
-      </div>
+          )}
+        </div>
+      </form>
+      {!showCode && (
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
+        </div>
+      )}
+      {!showCode && (
+        <Button
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+          onClick={() => {
+            setIsLoading(true);
+            googleSignIn();
+          }}
+        >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Icons.google className="mr-2 h-4 w-4" />
+          )}{" "}
+          Google
+        </Button>
+      )}
+      {message && (
+        <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center text-green-700 ">
+          {message}
+        </p>
+      )}
     </div>
   );
 }
