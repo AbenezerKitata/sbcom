@@ -4,7 +4,6 @@ import MobileNav from "./mobileNav";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Image from "next/image";
 import Link from "next/link";
-import AuthButton from "@/components/AuthButton";
 
 const Nav = () => {
   return (
@@ -54,7 +53,6 @@ const Nav = () => {
           >
             Sign In
           </Link> */}
-          <AuthButton />
         </nav>
       </div>
       {/* </div> */}
