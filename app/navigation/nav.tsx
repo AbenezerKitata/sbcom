@@ -4,8 +4,21 @@ import MobileNav from "./mobileNav";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Image from "next/image";
 import Link from "next/link";
+import AuthButton from "@/components/AuthButton";
+import { createClient } from "@/utils/supabase/server";
 
 const Nav = () => {
+  const canInitSupabaseClient = () => {
+    // This function is just for the interactive tutorial.
+    // Feel free to remove it once you have Supabase connected.
+    try {
+      createClient();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+  const isSupabaseConnected = canInitSupabaseClient();
   return (
     <>
       {/* <div className="  flex justify-between px-5 py-1"> */}
@@ -53,6 +66,7 @@ const Nav = () => {
           >
             Sign In
           </Link> */}
+          {isSupabaseConnected && <AuthButton />}
         </nav>
       </div>
       {/* </div> */}
